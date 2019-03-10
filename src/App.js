@@ -111,11 +111,13 @@ class App extends Component {
               break;
             case "delete_member":
               i = members.findIndex( m => m.id === value)
-              sysMsg = {
-                name: '系統訊息',
-                text: `${members[i].name} 離開聊天室`
+              if(i >= 0){
+                sysMsg = {
+                  name: '系統訊息',
+                  text: `${members[i].name} 離開聊天室`
+                }
+                members.splice(i, 1);
               }
-              members.splice(i, 1);
               break;
             case "update_member":
               i = members.findIndex( m => m.id === value.id);
@@ -145,13 +147,14 @@ class App extends Component {
     })
   }
   handleChatroomLeave = chatroomId => () => {
-    const { socket, chatrooms, chatroomIndex, index } = this.state;
+    const { socket } = this.state;
     socket.emit("leave_chatroom", chatroomId, id => {
       if(id !== chatroomId ) console.log('Wrong!!')
       else {
+        const { chatrooms, chatroomIndex, index } = this.state;
         const i = chatroomIndex.indexOf(id);
         const newIndex = chatroomIndex.filter( i => i !== id);
-        const newChatrooms = { ...chatrooms, id: undefined};
+        const newChatrooms = { ...chatrooms, [id]: undefined};
         socket.off(`chatroom#${id}`);
         this.setState({
           chatrooms: newChatrooms,
