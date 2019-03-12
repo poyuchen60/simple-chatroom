@@ -1,13 +1,13 @@
 {
-  "main.css": "/simple-chatroom/static/css/main.71803f69.chunk.css",
-  "main.js": "/simple-chatroom/static/js/main.45f39bbb.chunk.js",
-  "main.js.map": "/simple-chatroom/static/js/main.45f39bbb.chunk.js.map",
+  "main.css": "/simple-chatroom/static/css/main.6e40d5e4.chunk.css",
+  "main.js": "/simple-chatroom/static/js/main.d510157a.chunk.js",
+  "main.js.map": "/simple-chatroom/static/js/main.d510157a.chunk.js.map",
   "static/js/1.07f38bf8.chunk.js": "/simple-chatroom/static/js/1.07f38bf8.chunk.js",
   "static/js/1.07f38bf8.chunk.js.map": "/simple-chatroom/static/js/1.07f38bf8.chunk.js.map",
   "runtime~main.js": "/simple-chatroom/static/js/runtime~main.0586ad0d.js",
   "runtime~main.js.map": "/simple-chatroom/static/js/runtime~main.0586ad0d.js.map",
-  "static/css/main.71803f69.chunk.css.map": "/simple-chatroom/static/css/main.71803f69.chunk.css.map",
+  "static/css/main.6e40d5e4.chunk.css.map": "/simple-chatroom/static/css/main.6e40d5e4.chunk.css.map",
   "index.html": "/simple-chatroom/index.html",
-  "precache-manifest.950677e5b3a893cb937d45624b21add2.js": "/simple-chatroom/precache-manifest.950677e5b3a893cb937d45624b21add2.js",
+  "precache-manifest.847f770cd484d29edf0c9e7d6db7e469.js": "/simple-chatroom/precache-manifest.847f770cd484d29edf0c9e7d6db7e469.js",
   "service-worker.js": "/simple-chatroom/service-worker.js"
 }

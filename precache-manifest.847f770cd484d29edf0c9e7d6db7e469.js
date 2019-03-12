@@ -4,19 +4,19 @@ self.__precacheManifest = [
     "url": "/simple-chatroom/static/js/runtime~main.0586ad0d.js"
   },
   {
-    "revision": "45f39bbb7715b19983ce",
-    "url": "/simple-chatroom/static/js/main.45f39bbb.chunk.js"
+    "revision": "d510157a28f3c6328588",
+    "url": "/simple-chatroom/static/js/main.d510157a.chunk.js"
   },
   {
     "revision": "07f38bf866719864dd23",
     "url": "/simple-chatroom/static/js/1.07f38bf8.chunk.js"
   },
   {
-    "revision": "45f39bbb7715b19983ce",
-    "url": "/simple-chatroom/static/css/main.71803f69.chunk.css"
+    "revision": "d510157a28f3c6328588",
+    "url": "/simple-chatroom/static/css/main.6e40d5e4.chunk.css"
   },
   {
-    "revision": "3619dd308190237942a4db4f60f8eb78",
+    "revision": "dc7dd09f83da74a0d43db8d43a200894",
     "url": "/simple-chatroom/index.html"
   }
 ];
