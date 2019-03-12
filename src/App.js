@@ -105,9 +105,10 @@ class App extends Component {
     }
   }
   handleChatroomJoin = (chatroomId) => () => {
-    const { socket, chatrooms, chatroomIndex } = this.state;
+    const { socket } = this.state;
     socket.emit("join_chatroom", chatroomId, chatroom => {
       if(!chatroom) return;
+      const { chatrooms, chatroomIndex } = this.state;
       const { id } = chatroom;
       this.setState({
         chatrooms: {...chatrooms, [id]: {...chatroom, unread: 0}},
