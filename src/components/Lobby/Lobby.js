@@ -42,7 +42,7 @@ class Lobby extends Component {
     chatrooms: [],
     newRoomDialogOpen: false
   }
-  componentDidMount = () => {
+  handleLobbySub = () => {
     const { socket } = this.props;
     socket.emit("join_lobby", chatrooms => {
       this.setState({chatrooms}, () => {
@@ -73,9 +73,23 @@ class Lobby extends Component {
       })
     })
   }
-  componentWillUnmount = () => {
+  handleLobbyUnsub = () => {
     const { socket } = this.props;
     socket.off("lobby");
+  }
+  componentDidMount = () => {
+    this.props.connected && this.handleLobbySub();
+  }
+  componentWillUnmount = () => {
+    this.handleLobbyUnsub();
+  }
+  componentDidUpdate = (prevPros) => {
+    const { connected } = this.props;
+    if(connected !== prevPros.connected){
+      connected
+      ? this.handleLobbySub()
+      : this.handleLobbyUnsub()
+    }
   }
   handleNewChatroom = (options={}) => {
     const { socket } = this.props;
@@ -85,7 +99,7 @@ class Lobby extends Component {
   handleDialogClose = () => this.setState({newRoomDialogOpen: false});
 
   render(){
-    const { classes, onJoin } = this.props;
+    const { classes, onJoin, connected } = this.props;
     const { chatrooms, newRoomDialogOpen } = this.state;
     const {
       handleNewChatroom,
@@ -98,21 +112,27 @@ class Lobby extends Component {
             Lobby
           </Typography>
           <Button
+            disabled={!connected}
             onClick={handleDialogOpen}
             color='inherit'
           >New</Button>
         </Toolbar>
       </AppBar>
       <div className={classes.cardContainer}>
-        {chatrooms.map( ({name, members, id}) =>
-          <RoomCard
-            key={id}
-            name={name}
-            members={members}
-            classes={classes}
-            onJoin={onJoin(id)}
-          />
-        )}
+        {connected
+          ? chatrooms.map( ({name, members, id}) =>
+            <RoomCard
+              key={id}
+              name={name}
+              members={members}
+              classes={classes}
+              onJoin={onJoin(id)}
+            />
+          )
+          : <Typography variant="h5" gutterBottom>
+            連線中
+          </Typography>
+        }
       </div>
       {newRoomDialogOpen && <Modal>
         <NewRoomDialog

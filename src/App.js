@@ -32,6 +32,7 @@ class App extends Component {
     super(props);
     this.state = {
       socket:  io('https://infinite-waters-19418.herokuapp.com/'),
+      connected: false,
       invitations: [],
       index: -1,
       chatrooms: {},
@@ -41,13 +42,33 @@ class App extends Component {
   }
 
   componentDidMount = () => {
-    this.handleLogin();
+    const { socket } = this.state;
+    const { handleDisconnect, handleLogin } = this;
+    socket.on('connect', () => {
+      setTimeout(handleLogin, 500);
+    });
+    socket.on('disconnect', () => {
+      handleDisconnect();
+    })
   }
 
+  handleDisconnect = () => {
+    const { socket, id, chatroomIndex } = this.state;
+    socket.off(`user#${id}`);
+    chatroomIndex.forEach(
+      chatroomId => socket.off(`chatroom#${chatroomId}`)
+    )
+    this.setState({
+      chatrooms: {},
+      chatroomIndex: [],
+      index: -1,
+      connected: false
+    })
+  }
   handleLogin = () => {
-    const { socket } = this.state;
-    socket.emit('login', (info) => {
-      this.setState(info,
+    const { socket, id } = this.state;
+    socket.emit('login', id, (info) => {
+      this.setState({...info, connected: true},
         () => socket.on(`user#${info.id}`, ({type, value}) => {
           let { invitations } = this.state;
           switch(type){
@@ -151,11 +172,11 @@ class App extends Component {
     socket.emit("leave_chatroom", chatroomId, id => {
       if(id !== chatroomId ) console.log('Wrong!!')
       else {
+        socket.off(`chatroom#${id}`);
         const { chatrooms, chatroomIndex, index } = this.state;
         const i = chatroomIndex.indexOf(id);
         const newIndex = chatroomIndex.filter( i => i !== id);
         const newChatrooms = { ...chatrooms, [id]: undefined};
-        socket.off(`chatroom#${id}`);
         this.setState({
           chatrooms: newChatrooms,
           chatroomIndex: newIndex,
@@ -201,7 +222,7 @@ class App extends Component {
     const { classes } = this.props;
     const {
       chatroomIndex, chatrooms, index,
-      invitations, socket, name, intro
+      invitations, socket, name, intro, connected
     } = this.state;
     const {
       handleChatroomSelect,
@@ -214,6 +235,7 @@ class App extends Component {
       <CssBaseline />
       <nav className={classes.nav}>
         <NaviationBar
+          connected={connected}
           index={index}
           onAccept={handleAccept}
           onDecline={handleDecline}
@@ -227,8 +249,7 @@ class App extends Component {
         />
       </nav>
       <section className={classes.main}>
-        {
-          index >= 0 
+        { index >= 0 
           ? <Chatroom
             onRead={handleChatroomRead}
             onInvite={handleUserInvite(chatroomIndex[index])}
@@ -237,7 +258,11 @@ class App extends Component {
             chatroom={chatroomList[index]}
             onSend={handleSendMessage(chatroomIndex[index])}
           />
-          : <Lobby socket={socket} onJoin={handleChatroomJoin}/>
+          : <Lobby
+            connected={connected}
+            socket={socket}
+            onJoin={handleChatroomJoin}
+          />
         }
       </section>
     </div>

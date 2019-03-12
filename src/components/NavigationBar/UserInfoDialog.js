@@ -24,41 +24,45 @@ class UserInfoDialog extends Component {
   }
 
   render(){
-    const { onClose } = this.props;
+    const { onClose, connected } = this.props;
     const { name, intro } = this.state;
     const { handleTextChange, handleSubmit } = this;
-    return <Dialog
-      open={true}
-      onClose={onClose}
-    >
-      <DialogTitle>個人資料</DialogTitle>
-      <DialogContent>
-        <TextField
-          value={name}
-          onChange={handleTextChange("name")}
-          margin="dense"
-          label="名稱"
-          type="text"
-          fullWidth
-        />
-        <TextField
-          value={intro}
-          onChange={handleTextChange("intro")}
-          margin="dense"
-          label="自我介紹"
-          type="text"
-          fullWidth
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} color="primary">
-          取消
-        </Button>
-        <Button onClick={handleSubmit} color="primary">
-          確定
-        </Button>
-      </DialogActions>
-    </Dialog>
+    return connected
+      ? <Dialog
+        open={true}
+        onClose={onClose}
+      >
+        <DialogTitle>個人資料</DialogTitle>
+        <DialogContent>
+          <TextField
+            value={name}
+            onChange={handleTextChange("name")}
+            margin="dense"
+            label="名稱"
+            type="text"
+            fullWidth
+          />
+          <TextField
+            value={intro}
+            onChange={handleTextChange("intro")}
+            margin="dense"
+            label="自我介紹"
+            type="text"
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose} color="primary">
+            取消
+          </Button>
+          <Button onClick={handleSubmit} color="primary">
+            確定
+          </Button>
+        </DialogActions>
+      </Dialog>
+      : <Dialog
+        open={true}
+      ><DialogTitle>伺服器連線中...</DialogTitle></Dialog>
   }
 }
 

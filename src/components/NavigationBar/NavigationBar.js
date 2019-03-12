@@ -52,7 +52,7 @@ class NavigationBar extends Component {
     const { handleDialogClose, handleDialogOpen, handleSubmit } = this;
     const { userDialog, invitationDialog } = this.state;
     const {
-      classes, chatrooms, invitations, index,
+      classes, chatrooms, invitations, index, connected,
       onSelect, name, intro, onLeave, onDecline, onAccept
     } = this.props;
 
@@ -103,6 +103,7 @@ class NavigationBar extends Component {
     </List>
     {userDialog && <Modal>
       <UserInfoDialog
+        connected={connected}
         name={name}
         intro={intro}
         onClose={handleDialogClose}
