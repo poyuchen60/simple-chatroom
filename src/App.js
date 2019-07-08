@@ -44,6 +44,7 @@ class App extends Component {
   componentDidMount = () => {
     const { socket } = this.state;
     const { handleDisconnect, handleLogin } = this;
+    //There may be a event catch lost during constructing and mounted
     socket.on('connect', () => {
       setTimeout(handleLogin, 500);
     });
